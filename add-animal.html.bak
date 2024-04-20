@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Animal</title>
+	<style>
+        body {
+            background-image: url('wallpaper.jpg');
+            background-repeat: repeat; /* This will tile the image */
+            background-size: auto; /* Keeps the image's original size */
+            background-attachment: fixed; /* Keeps the background fixed during scrolling */
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a New Animal</h1>
+    <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="breed">Breed:</label><br>
+        <input type="text" id="breed" name="breed"><br>
+        <!-- Add other fields similarly -->
+        <input type="submit" value="Submit">
+    </form>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

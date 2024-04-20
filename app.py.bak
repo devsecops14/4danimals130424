@@ -1,0 +1,27 @@
+from flask import Flask, render_template
+import sqlite3
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/view-animals')
+def view_animals():
+    # Connect to your SQL database
+    conn = sqlite3.connect('your_database.db')
+    cur = conn.cursor()
+
+    # Query for available animals
+    cur.execute("SELECT * FROM animals WHERE status = 'available'")
+    animals = cur.fetchall()
+
+    # Close the connection
+    conn.close()
+
+    # Render the HTML page with the animals data
+    return render_template('view-animals.html', animals=animals)
+
+if __name__ == '__main__':
+    app.run(debug=True)

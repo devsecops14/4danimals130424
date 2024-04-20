@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Animals for Adoption</title>
+</head>
+<body>
+    <h1>Available Animals for Adoption</h1>
+    <div id="animal-list">
+        {% for animal in animals %}
+            <div class="animal">
+                <h2>Name: {{ animal[1] }}</h2> <!-- Assuming 'name' is the second column -->
+                <p>Breed: {{ animal[2] }}</p> <!-- Adjust indices based on your DB structure -->
+                <p>Gender: {{ animal[3] }}</p>
+                <p>Color: {{ animal[4] }}</p>
+                <!-- Add more details as needed -->
+            </div>
+        {% endfor %}
+    </div>
+    <a href="/">Back to Home</a>
+</body>
+</html>

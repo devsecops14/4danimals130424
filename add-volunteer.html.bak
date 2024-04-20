@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Volunteer Registration</title>
+</head>
+<body>
+    <h1>Volunteer Registration</h1>
+    <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address"><br>
+        <!-- Add other fields similarly -->
+        <input type="submit" value="Submit">
+    </form>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

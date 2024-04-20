@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Adoption Portal</title>
+	<style>
+        body {
+            background-image: url('wallpaper.jpg');
+            background-repeat: repeat; /* This will tile the image */
+            background-size: auto; /* Keeps the image's original size */
+            background-attachment: fixed; /* Keeps the background fixed during scrolling */
+        }
+    </style>
+	<style>
+	  .button-container {
+		display: flex; /* This will arrange the child buttons in a row */
+		justify-content: center; /* This centers the buttons horizontally */
+		flex-wrap: wrap; /* This allows buttons to wrap to the next line on smaller screens */
+		padding: 20px; /* Add some padding around the container for spacing */
+	  }
+
+	  .button-container button {
+		background-color: #f0eae0; /* Soft color that complements the background */
+		color: #5a5a5a; /* A darker color for text to ensure readability */
+		border: 2px solid #8a8a8a; /* Border to make the button stand out */
+		padding: 10px 20px; /* Padding for size */
+		font-size: 16px; /* Font size */
+		font-weight: bold; /* Bold text */
+		cursor: pointer; /* Cursor to indicate clickable */
+		border-radius: 5px; /* Rounded corners for a modern look */
+		transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+		margin: 10px; /* Space between buttons */
+	  }
+
+	  .button-container button:hover {
+		background-color: #dcd0c0; /* Color change on hover */
+	  }
+	  
+	</style>
+	<style>
+	  header {
+		background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+		padding: 20px; /* Padding for spacing */
+		text-align: center; /* Center-align the header text */
+		border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+	  }
+
+	  header h1 {
+		font-size: 2em; /* Increase font size */
+		font-weight: bold; /* Bold font weight */
+		color: #5a5a5a; /* Dark color for contrast */
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+		margin: 0; /* Remove default margin */
+	  }
+	</style>
+
+</head>
+<body>
+	<header>
+		<h1>Welcome to Our Animal Adoption Portal</h1>
+	</header>
+    <nav>
+		<div class="button-container">
+			<button onclick="location.href='new-volunteer.html'">New Volunteer</button>
+			<button onclick="location.href='new-adopter.html'">New Adopter</button>
+			<button onclick="location.href='add-animal.html'">New Animal</button>
+			<button onclick="location.href='pets-catalog.html'">Pets Catalog</button>
+			<button onclick="location.href='about-us.html'">About Us</button>
+			<button onclick="location.href='faqs.html'">FAQs</button>
+		</div>
+
+    </nav>
+</body>
+</html>
