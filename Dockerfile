@@ -11,10 +11,10 @@ COPY . /app
 RUN pip install flask flask_sqlalchemy
 
 # Make port 8080 available to the world outside this container
-EXPOSE 8080
+EXPOSE 5500
 
 # Define environment variable for the database path
 ENV DATABASE_URL /data/4danimals.db
 
 # Run app.py when the container launches
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5500"]

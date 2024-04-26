@@ -4,11 +4,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import sqlite3
 from validate_fileds import validate_form
+import os
 
 app = Flask(__name__)
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
 # Configure the SQLAlchemy part of the app instance
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///4danimals.db'
+if DATABASE_URL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite://{DATABASE_URL}"  # Assuming SQLite
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///4danimals.db'  # Fallback
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Create the SQLAlchemy db instance
@@ -394,4 +399,4 @@ def delete(table, id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5500)
+    app.run(debug=True, host='0.0.0.0', port=8080)
