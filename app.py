@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import sqlite3
+from validate_fileds import validate_form
 
 app = Flask(__name__)
 
@@ -53,6 +54,15 @@ class Volunteers(db.Model):
     can_be_foster = db.Column(db.Boolean)
     animal_fostered = db.Column(db.String(255))
 
+
+def convert_to_datetime(text_date):
+    print(str(text_date))
+    try:
+        # Use strptime to parse the date string with specific format
+        date_obj = datetime.strptime(str(text_date), "%Y-%m-%d")
+        return date_obj
+    except ValueError:
+        raise ValueError(f"Invalid date format: {str(text_date)}. Expected format YYYY-MM-DD")
 
 @app.route('/')
 def index():
@@ -181,29 +191,57 @@ def view_adopters():
 @app.route('/add-animal', methods=['GET', 'POST'])
 def add_animal():
     if request.method == 'POST':
-        # Create a new Animal instance using the form data
-        new_animal = Animal(
-            name=request.form['name'],
-            gender=request.form['gender'],
-            color=request.form['color'] if request.form['color'] else None,
-            birth_date=request.form['birth_date'] if request.form['birth_date'] else None,
-            age=request.form['age'] if request.form['age'] else None,
-            species=request.form['species'] if request.form['species'] else None,
-            breed_name=request.form['breed_name'] if request.form['breed_name'] else None,
-            chip_number=request.form['chip_number'] if request.form['chip_number'] else None,
-            spayed_neutered=True if request.form.get('spayed_neutered') == 'on' else False,
-            # Assuming 'arrival' is auto-set to current date
-            foster=True if request.form.get('foster') == 'on' else False,
-            current_owner=request.form['current_owner'] if request.form['current_owner'] else None,
-            vaccines=request.form['vaccines'] if request.form['vaccines'] else None
-        )
+        refill = True
+        while (refill):
+            # Create a new Animal instance using the form data
+            new_animal = Animal(
+                name=request.form['name'],
+                gender=request.form['gender'],
+                color=request.form['color'] if request.form['color'] else None,
+                birth_date=convert_to_datetime(request.form['birth_date']) if request.form['birth_date'] else None,
+                age=request.form['age'] if request.form['age'] else None,
+                species=request.form['species'] if request.form['species'] else None,
+                breed_name=request.form['breed_name'] if request.form['breed_name'] else None,
+                chip_number=request.form['chip_number'] if request.form['chip_number'] else None,
+                spayed_neutered=True if request.form.get('spayed_neutered') == 'on' else False,
+                # arrival=request.form['arrival'] if request.form['arrival'] else None,
+                arrival= convert_to_datetime(request.form['arrival']) if request.form['arrival'] else None,
+                foster=True if request.form.get('foster') == "on" else False,
+                current_owner=request.form['current_owner'] if request.form['current_owner'] else None,
+                vaccines=request.form['vaccines'] if request.form['vaccines'] else None
+            )
 
-        # Add the new animal to the session and commit it to the database
-        db.session.add(new_animal)
-        db.session.commit()
+            animal_data = {
+                "name": {"name": "name", "value": new_animal.name, "required": True},
+                "gender": {"name": "gender", "value": new_animal.gender, "required": True},
+                "color": {"name": "color", "value": new_animal.color, "required": True},
+                "birth_date": {"name": "birth_date", "value": new_animal.birth_date.strftime("%Y-%m-%d"), "required": True},
+                "age": {"name": "age", "value": new_animal.age, "required": False},
+                "species": {"name": "species", "value": new_animal.species, "required": True},
+                "breed_name": {"name": "breed_name", "value": new_animal.breed_name, "required": True},
+                "chip_number": {"name": "chip_number", "value": new_animal.chip_number, "required": False},  # Add optional parameters
+                "spayed_neutered": {"name": "spayed_neutered", "value": new_animal.spayed_neutered, "required": False},
+                "arrival": {"name": "arrival", "value": new_animal.arrival.strftime("%Y-%m-%d"), "required": True},
+                # "foster": {"name": "foster", "value": new_animal.foster, "required": False},
+                "current_owner": {"name": "current_owner", "value": new_animal.current_owner, "required": False},
+                "vaccines": {"name": "Vaccines", "value": new_animal.vaccines, "required": False},
 
-        # Redirect to a new URL, or render a template with a success message
-        return redirect(url_for('index'))  # Redirect back to the home page or a confirmation page
+            }
+
+            validate, errors = validate_form(**animal_data)
+            if validate:
+                refill = False
+                # Add the new animal to the session and commit it to the database
+                # Animal.arrival = convert_to_datetime(Animal.arrival)
+                # Animal.birth_date = convert_to_datetime(Animal.Animal.birth_date)
+                db.session.add(new_animal)
+                db.session.commit()
+                # Redirect to a new URL, or render a template with a success message
+                return redirect(url_for('index'))  # Redirect back to the home page or a confirmation page
+            else:
+                print(",".join(errors))
+                return render_template('add-animal.html', animal_data=animal_data, errors=errors)
+
     elif request.method == 'GET':
         return render_template('add-animal.html')
     # If the request method isn't POST, you might want to redirect or show an error
@@ -356,4 +394,4 @@ def delete(table, id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=5500)

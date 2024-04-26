@@ -165,34 +165,70 @@
    <div class="site-content">
     <h1>Add New Animal</h1>
     <form onsubmit="return validateForm()" method="post">
-        <div class="form-field">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" style="width: 150px;" required>
-        </div>
+        {% if errors %}
+        <ul class="errors">
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+       <div class="form-field">
+           <label for="name">Name:</label>
+           <input type="text" id="name" name="name" style="width: 150px;" required
+           {% if animal_data %}
+            value="{{ animal_data['name']['value'] or ''}}">
+           {% else %}
+            >
+           {% endif %}
+      </div>
         <div class="form-field">
             <label for="gender">Gender:</label>
             <select id="gender" name="gender" style="width: 130px;" required>
-                <option value="">Select Gender</option>
+              {% if animal_data %}
+                    <option value="{{ animal_data['gender']['value'] }}" selected>{{ animal_data['gender']['value'] }}</option>
+                {% else %}
+                {% endif %}
+                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-            </select>
+                </select>
+
         </div>
         <div class="form-field">
             <label for="color">Color:</label>
-            <input type="text" id="color" name="color" style="width: 150px;" required>
+            <input type="text" id="color" name="color" style="width: 150px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['color']['value'] or ''}}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="birth_date">Date of Birth:</label>
-            <input type="date" id="birth_date" name="birth_date" style="width: 100px;">
+            <input type="date" id="birth_date" name="birth_date" style="width: 100px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['birth_date']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="age">Age:</label>
-            <input type="text" id="age" name="age" style="width: 35px;">
+            <input type="text" id="age" name="age" style="width: 35px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['age']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="species">Species:</label>
-            <select id="species" name="species" style="width: 130px;" required>
-                <option value="">Select Species</option>
+            <select id="species" name="species" style="width: 130px;" required >
+            {% if animal_data %}
+            <option value="{{ animal_data['species']['value'] }}" selected>{{ animal_data['species']['value'] }}</option>
+            {% else %}
+            {% endif %}
+                <option value="">Select species</option>
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
                 <option value="Fish">Fish</option>
@@ -200,34 +236,60 @@
                 <option value="Reptile">Reptile</option>
                 <option value="Other">Other</option>
             </select>
+
         </div>
         <div class="form-field">
             <label for="breed_name">Breed Name:</label>
-            <input type="text" id="breed_name" name="breed_name" style="width: 150px;" required>
+            <input type="text" id="breed_name" name="breed_name" style="width: 150px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['breed_name']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="chip_number">Chip Number:</label>
-            <input type="text" id="chip_number" name="chip_number" style="width: 150px;" >
+            <input type="text" id="chip_number" name="chip_number" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['chip_number']['value'] or '' }}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="spayed_neutered">Spayed/Neutered:</label>
-            <input type="checkbox" id="spayed_neutered" name="spayed_neutered">
+            <input type="checkbox" id="spayed_neutered" name="spayed_neutered" >
         </div>
         <div class="form-field">
             <label for="arrival">Arrival Date:</label>
-            <input type="date" id="arrival" name="arrival" style="width: 100px;" required>
+            <input type="date" id="arrival" name="arrival" style="width: 100px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['arrival']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="foster">Foster:</label>
-            <input type="checkbox" id="foster" name="foster">
+            <input type="checkbox" id="foster" name="foster" >
         </div>
         <div class="form-field">
             <label for="current_owner">Current Owner (ID):</label>
-            <input type="text" id="current_owner" name="current_owner" style="width: 150px;">
+            <input type="text" id="current_owner" name="current_owner" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['current_owner']['value'] or None}}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <div class="form-field">
             <label for="vaccines">Vaccines:</label>
-            <input type="text" id="vaccines" name="vaccines" style="width: 150px;">
+            <input type="text" id="vaccines" name="vaccines" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['vaccines']['value'] or ''}}">
+                   {% else %}
+                   >
+                   {% endif %}
         </div>
         <button type="submit" class="form-button">Submit</button>
     </form>
