@@ -16,7 +16,9 @@ EXPOSE 8080
 
 # Define environment variable for the database path
 #ENV DATABASE_URL /data/4danimals.db
-CMD ["python3", "create_sql_db_using_python.py" ]
-# Run app.py when the container launches
-CMD ["python3", "app.py", "--host=0.0.0.0", "--port=8080"]
+#CMD ["python3", "create_sql_db_using_python.py" ]
+## Run app.py when the container launches
+#CMD ["python3", "app.py", "--host=0.0.0.0", "--port=8080"]
 #CMD ["python3" ,"create_sql_db_using_python.py","python3" ,"app.py" ,""--host=0.0.0.0" ,"--port=8080"]
+#CMD ["bash", "startup.sh"]
+RUN ./startup.sh
