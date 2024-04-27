@@ -14,6 +14,7 @@ if DATABASE_URL:
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite://{DATABASE_URL}"  # Assuming SQLite
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///4danimals.db'  # Fallback
+    print(app.config['SQLALCHEMY_DATABASE_URI'] )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Create the SQLAlchemy db instance
@@ -77,7 +78,7 @@ def index():
 def view_volunteers():
     if request.method == 'GET':
         # Connect to your SQL database
-        conn = sqlite3.connect('4danimals.db')
+        conn = sqlite3.connect('/instance/4danimals.db')
         cur = conn.cursor()
         # Query for available volunteers
         cur.execute("SELECT * FROM Volunteers")

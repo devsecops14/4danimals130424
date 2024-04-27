@@ -1,8 +1,20 @@
 import sqlite3
+import os
 
-def create_database():
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+
+def create_database(stage):
     # Connect to the database (or create it if it doesn't exist)
-    conn = sqlite3.connect('instance/4danimals.db')
+    # conn = sqlite3.connect('instance/4danimals.db')
+    if stage == 1:
+        if DATABASE_URL is None:
+            conn = sqlite3.connect('instance/4danimals.db')
+        else:
+            conn = sqlite3.connect(DATABASE_URL)
+    else:
+        conn = sqlite3.connect('./4danimals.db')
     c = conn.cursor()
 
     # Create the Animal table
@@ -91,4 +103,5 @@ def create_database():
     conn.close()
 
 # Call the function to create the database
-create_database()
+create_database(1)
+create_database(2)
