@@ -7,17 +7,12 @@ from validate_fileds import validate_form
 import os
 
 app = Flask(__name__)
-
-DATABASE_URL = os.environ.get("DATABASE_URL")
-# Configure the SQLAlchemy part of the app instance
-if DATABASE_URL:
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite://{DATABASE_URL}"  # Assuming SQLite
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///4danimals.db'  # Fallback
-    print(app.config['SQLALCHEMY_DATABASE_URI'] )
+# Get the base directory of the application
+basedir = os.path.abspath(os.path.dirname(__file__))
+# Set the database URI to use the root folder
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, '4danimals.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create the SQLAlchemy db instance
 db = SQLAlchemy(app)
 
 # Define the Animal model
@@ -40,7 +35,7 @@ class Animal(db.Model):
 class Applicants(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(100), nullable=False)
-    Teudat_Zehut = db.Column(db.String(50), nullable=False)
+    teudat_zehut = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     city = db.Column(db.String(255))
     mail = db.Column(db.String(255))
@@ -51,7 +46,7 @@ class Applicants(db.Model):
 class Volunteers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(100), nullable=False)
-    Teudat_Zehut = db.Column(db.String(50), nullable=False)
+    teudat_zehut = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     city = db.Column(db.String(255))
     mail = db.Column(db.String(255))
@@ -78,7 +73,7 @@ def index():
 def view_volunteers():
     if request.method == 'GET':
         # Connect to your SQL database
-        conn = sqlite3.connect('/instance/4danimals.db')
+        conn = sqlite3.connect('4danimals.db')
         cur = conn.cursor()
         # Query for available volunteers
         cur.execute("SELECT * FROM Volunteers")
@@ -221,10 +216,10 @@ def add_animal():
                 "name": {"name": "name", "value": new_animal.name, "required": True},
                 "gender": {"name": "gender", "value": new_animal.gender, "required": True},
                 "color": {"name": "color", "value": new_animal.color, "required": True},
-                "birth_date": {"name": "birth_date", "value": new_animal.birth_date.strftime("%Y-%m-%d"), "required": True},
+                "birth_date": {"name": "birth_date", "value": new_animal.birth_date, "required": False},
                 "age": {"name": "age", "value": new_animal.age, "required": False},
                 "species": {"name": "species", "value": new_animal.species, "required": True},
-                "breed_name": {"name": "breed_name", "value": new_animal.breed_name, "required": True},
+                "breed_name": {"name": "breed_name", "value": new_animal.breed_name, "required": False},
                 "chip_number": {"name": "chip_number", "value": new_animal.chip_number, "required": False},  # Add optional parameters
                 "spayed_neutered": {"name": "spayed_neutered", "value": new_animal.spayed_neutered, "required": False},
                 "arrival": {"name": "arrival", "value": new_animal.arrival.strftime("%Y-%m-%d"), "required": True},
@@ -285,7 +280,7 @@ def new_volunteer():
         # Create a new Animal instance using the form data
         new_volunteer = Volunteers(
             full_name=request.form['full_name'],
-            Teudat_Zehut=request.form['teudat_zehut'],
+            teudat_zehut=request.form['teudat_zehut'],
             address=request.form['address'] if request.form['address'] else None,
             city=request.form['city'] if request.form['city'] else None,
             mail=request.form['mail'] if request.form['mail'] else None,
