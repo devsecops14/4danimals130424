@@ -121,18 +121,7 @@
 
 
     </style>
-    <script>
-        function validateForm() {
-            const inputs = document.querySelectorAll('input, select');
-            for (let i = 0; i < inputs.length; i++) {
-                if (inputs[i].hasAttribute('required') && !inputs[i].value.trim()) {
-                    alert('All fields must be filled out');
-                    return false; // Prevent form from submitting
-                }
-            }
-            return true; // Allow form submission
-        }
-    </script>
+
 </head>
 <body>
    <div class="site-content">
@@ -175,6 +164,21 @@
     </form>
 
     <script>
+        function validateForm() {
+            const inputs = document.querySelectorAll('input, select');
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].hasAttribute('required') && !inputs[i].value.trim()) {
+                    alert('All fields must be filled out');
+                    return false; // Prevent form from submitting
+                }
+            }
+            var email = document.getElementById("mail").value;
+            var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!re.test(email)) {
+                alert("Invalid email format");
+                return false; // Prevent form submission
+            return true; // Allow form submission
+        }
         // Example JavaScript to handle form submission
         document.getElementById('adopterForm').onsubmit = function(e) {
             e.preventDefault(); // Prevent default form submission
